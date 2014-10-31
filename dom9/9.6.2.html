@@ -30,10 +30,8 @@
                 for(var i = 0; i < this.values.length; i++) f.call(c,this.values[i]);
             };
 // Return the constructor that identifies the new type
-
             return enumeration;
         }
-
 
         var Coin =enumeration({Penny: 1, Nickel:5, Dime:10, Quarter:25});
         var c = Coin.Dime; // This is an instance of the new class
@@ -44,9 +42,10 @@
         console.log(Coin.Dime > Coin.Nickel) // => true: relational operators work
         console.log(String(Coin.Dime) + ":" + Coin.Dime)  // => "Dime:10": coerce to string
         console.log(c);
+        var o={};
+        Coin.foreach(function(){ console.log(1);},o);
 
-        
-
+//      这个构造函数返回的对象，将参数生成对象然后将此对象（这个对象继承其原型的三个方法）保存为自己的参数，
     </script>
 </head>
 <body>
