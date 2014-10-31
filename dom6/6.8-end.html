@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="../06.01.inherit.js"></script>
+  <script src="../06.04.classof.js"></script>
+  <script src="../assert.js"></script>
+  <script>
+    //原型属性
+    var p={x:1};
+    var o2=inherit(p);
+    //console.log(Object.getPrototypeOf(o2));     //==>Object {x: 1}
+    console.log( p.isPrototypeOf(o2));          //=->true
+//    类属性
+    console.log( classof(null)) // => "Null"
+    console.log(classof(1)) // => "Number"
+    console.log(classof("")) // => "String"
+    console.log(classof(false)) // => "Boolean"
+    console.log(classof({})) // => "Object"
+    console.log(classof([])) // => "Array"
+    console.log(classof(/./)) // => "Regexp"
+    console.log(classof(new Date())) // => "Date"
+    console.log(classof(window)) // => "Window" (a client-side host object)
+    function f() {};
+    console.log(classof(f));    //==>Function
+    console.log(classof(new f())); // => "Object
+//    可扩展性
+    var empty = {};
+//    console.log(Object.isSealed(empty));
+//    assert(Object.isSealed(empty)===false);   //==>对象未封闭
+//    将对象转化成不可扩展
+//    Object.preventExtensions(empty)
+//    assert(Object.isSealed(empty) === true);  //==>对象封闭
+
+
+
+//    ==JSON
+    var a=JSON.parse('{"p": 5}', function (k, v) {
+      if(k === "") return v;     // if topmost value, return it,
+      return v * 2;              // else return v * 2.
+    });                            // { p: 10 }
+console.log(a);   //==>Object {p: 10}
+    var b=JSON.parse('{"1": 1, "2": 2,"3": {"4": 4, "5": {"6": 6}}}', function (k, v) {
+      console.log(k);            // log the current property name, the last is "".
+      return v;                  // return the unchanged property value.
+    });
+    var obj = {
+      foo: 'foo',
+      toJSON: function () {
+        return 'bar';
+      }
+    };
+    console.log(b);   //==>Object
+    console.log(JSON.stringify({x: obj}));    //==>string  {x: obj}
+
+
+
+
+
+//  Object.prototype.toString()
+    var s={x:1}.toString();
+    console.log(s);      //==>[object Object]  typeof=string
+    console.log(typeof s);     //==>string
+    var toString = Object.prototype.toString;
+
+    toString.call(new Date);    // [object Date]
+    toString.call(new String);  // [object String]
+    toString.call(Math);        // [object Math]
+    console.log(toString.call(new Array));    // [object Array]
+    // Since JavaScript 1.8.5
+    toString.call(undefined);   // [object Undefined]
+    toString.call(null);        // [object Null]
+
+
+//    Object.prototype.toLocaleString()
+    var number = 1337;
+    var date = new Date();
+    var myArr = [number, date, 'foo'];
+
+    var str = myArr.toLocaleString();
+
+    console.log(str);
+
+//  Object.prototype.valueOf();
+    o = new Object();         //==>Object {}
+    a=new Array();            //==>[]
+    n=new Number();           //==>0
+    s=new String();           //==""
+    d=new Date();             //==>1414508056371
+    myVar = d.valueOf();      // Object {}
+    console.log(myVar);
+
+
+
+//    Date.prototype.toJSON()
+    var jsonDate = (new Date()).toJSON();
+    var aa=(new Date());
+    var ab=new Date();
+    console.log(ab);
+    var backToDate = new Date(jsonDate);
+    console.log("Serialized date object: " + jsonDate);
+  </script>
+</head>
+<body>
+</body>
+</html>

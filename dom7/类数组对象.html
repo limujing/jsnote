@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script>
+      var a={};//从常规空对象开始
+//      添加一些属性，称为类数组
+    var i=0;
+    while(i<10){
+      a[i]=i*i;
+      i++
+    }
+      a.length=i;
+//当作真正的数组遍历他
+    var t=0;
+    for(var j=0;j< a.length;j++){
+      t+=a[j];
+    }
+    console.log(t);
+
+//    判断o是否是一个类数组对象
+      function isArrayLike(o) {
+        if (o && // o is not null, undefined, etc.
+          typeof o === "object" && // o is an object
+          isFinite(o.length) && // o.length is a finite number
+          o.length >= 0 && // o.length is non-negative
+          o.length===Math.floor(o.length) && // o.length is an integer
+          o.length < 4294967296) // o.length < 2^32
+          return true; // Then o is array-like
+        else
+          return false; // Otherwise it is not
+      }
+
+
+      var a = {"0":"a", "1":"b", "2":"c",length:3}; // An array-like object
+   console.log(   Array.prototype.join.call(a, "+")); // => "a+b+c"
+      Array.prototype.slice.call(a, 0) // => ["a","b","c"]: true array copy
+      Array.prototype.map.call(a, function(x) {
+        return x.toUpperCase();
+      })
+
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

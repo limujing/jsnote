@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="../06.01.inherit.js"></script>
+  <script>
+//    "use strict"
+//    Object.getOwnPropertyDescriptor()
+    var random={
+      get octet() { return Math.floor(Math.random()*256); },
+      get uint16() { return Math.floor(Math.random()*65536); },
+      get int16() { return Math.floor(Math.random()*65536)-32768; }
+    }
+    console.log(Object.getOwnPropertyDescriptor({x:1}, "x"));   //==>Object {value: 1, writable: true, enumerable: true, configurable: true}
+    console.log(Object.getOwnPropertyDescriptor({}, "x"));      //=->undefined  没有这个属性
+    console.log(Object.getOwnPropertyDescriptor(random, "octet"));  //==>Object {get: function, set: undefined, enumerable: true, configurable: true}
+    console.log(Object.getOwnPropertyDescriptor({}, "toString"));   //==>   undefined  没有继承这个属性
+//    Object.defineProperty() && Object.defineProperties()
+    var o = {};
+//设置x属性为不可枚举
+    Object.defineProperty(o, "x", { value : 1,          //值
+                                    writable: true,     //可写性
+                                    enumerable: false,  //可枚举性
+                                    configurable: true}); //可配置性
+    console.log(o.x);       //==>1
+    console.log(Object.keys(o));      //==>[];
+//  让x变成只读属性
+    Object.defineProperty(o, "x", { writable: false });
+//    失败但是不报错，严格模式中抛出错误
+    o.x=2;
+//    属性依然是可配置性，可以通过这种方式修改
+    Object.defineProperty(o, "x", { value: 2 });
+    console.log(o.x);     //==>2
+//  将x的属性改为存储器属性
+    Object.defineProperty(o, "x", { get: function() { return 0; } });
+    console.log(o.x);     //==>0
+  </script>
+</head>
+<body>
+
+</body>
+</html>

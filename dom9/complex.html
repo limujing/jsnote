@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		//		Complex类，用来描述复数
+		//这个构造函数为它的所创建的每个实例都定义了字段r和i
+		//这两个字段分别表示复数的实部和虚部
+		//他们是对象的状态
+		function Complex(real, imaginary) {
+			if (isNaN(real) || isNaN(imaginary)) //确保两个实参都是数字
+				throw new TypeError("参数必须是数字"); //不是数字抛出错误
+			this.r = real; //复数的实部		//实例字段
+			this.i = imaginary; //复数的虚部
+		}
+		//		类的实例方法定义为原型对象的函数属性值
+		//		这里定义的方法可以被实例继承
+		//		需要注意的是javascript的方法实例必须提供this关键字
+		//		用来存取实例的字段
+//		当前复数对象加上另外一个复数对象，并返回一个新的计算后的复数对象
+		Complex.prototype.add = function(that) {
+			return new Complex(this.r + that.r, this.i + that.i);
+		};
+		// Multiply this complex number by another and return the product.
+		Complex.prototype.mul = function(that) {
+			return new Complex(this.r * that.r - this.i * that.i, this.r * that.i + this.i * that.r);
+		};
+		// Return the real magnitude of a complex number. This is defined
+		// as its distance from the origin (0,0) of the complex plane.
+		Complex.prototype.mag = function() {
+			return Math.sqrt(this.r * this.r + this.i * this.i);
+		};
+		// Return a complex number that is the negative of this one.
+		Complex.prototype.neg = function() {
+			return new Complex(-this.r, -this.i);
+		};
+		// Convert a Complex object to a string in a useful way.
+		Complex.prototype.toString = function() {
+			return "{" + this.r + "," + this.i + "}";
+		};
+		// Test whether this Complex object has the same value as another.
+		Complex.prototype.equals = function(that) {
+			return that != null && // must be defined and non-null
+					that.constructor === Complex && // and an instance of Complex
+					this.r === that.r && this.i === that.i; // and have the same values.
+		};
+		/**
+		 * 类字段（比如长量）和类方法直接定义为构造函数的属性
+		 * 需要注意的是、类的方法通常不使用关键字this
+		 * 它们只对其参数进行操作
+		 */
+//这里预定义了一些对复数运算有帮助的类字段
+//		它们的命名全都是大写，用以表示它们是常量
+//		ECMAScript5中还能设置这些类字段为只读
+		Complex.ZERO = new Complex(0,0);  //类字段
+		Complex.ONE = new Complex(1,0);
+		Complex.I = new Complex(0,1);
+
+
+//		这个类方法将由实例对象的toString方法返回的字符串格式解析为Complex对象
+//		或者抛出一个类型错误异常
+		Complex.parse = function(s) {
+			try { // 假设解析成功
+				var m = Complex._format.exec(s); // 利用正则进行匹配
+				return new Complex(parseFloat(m[1]), parseFloat(m[2]));
+			} catch (x) { // 解析失败则抛出异常
+				throw new TypeError("Can't parse '" + s + "' as a complex number.");
+			}
+		};
+//		定义类的私有字段这个字段在Complex.parse()中用到
+//		下划线前缀表明他是类内部使用的，而不属于类的共有API的部分
+		Complex._format = /^\{([^,]+),([^}]+)\}$/;
+		var c=new Complex(2,3);	//使用构造函数创建新对象
+		var d=new Complex(c.i, c.r);	//继续创建新对象，用到c的属性
+		c.add(d).toString();	//c调用继承的add()方法然后新生成的对象调用toString()方法
+		Complex.parse(c.toString()).add(c.neg()).equals(Complex.ZERO);
+		function p(o){
+			var a=[];
+			for(var p in o){
+				a.push(p);
+			}
+			return a;
+		}
+		console.log(p(c));
+		Complex.prototype.conj = function() { return new Complex(this.r, -this.i); };
+		console.log(p(c));
+
+		// Invoke the function f this many times, passing the iteration number
+		// For example, to print "hello" 3 times:
+		// var n = 3;
+		// n.times(function(n) { console.log(n + " hello"); });
+		Number.prototype.times = function(f, context) {
+			var n = Number(this);
+			for(var i = 0; i < n; i++) f.call(context, i);
+		};
+
+		var n=3;
+		n.times(function(n) { console.log(n + " hello"); });
+
+		// Define the ES5 String.trim() method if one does not already exist.
+		// 这个方法用以去除字符串开头和结尾的空格
+		String.prototype.trim = String.prototype.trim || function() {
+			if (!this) return this; // Don't alter the empty string
+			return this.replace(/^\s+|\s+$/g, ""); // Regular expression magic
+		};
+		// 返回函数名字，如果他有（非标准的）name属性，则直接使用name属性
+//		否则，将函数转换为字符串然后从中提取名字
+//		如果是没有名字的函数则返回一个空字符串
+		Function.prototype.getName = function() {
+			return this.name || this.toString().match(/function\s*([^(]*)\(/)[1];
+		};
+
+
+		console.log(aa.getName());
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

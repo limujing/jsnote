@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="../06.01.inherit.js"></script>
+  <script>
+    var o={x:1};
+//    in 运算符
+    console.log("x" in o);    //==>true;
+    console.log("toString" in o);   //==>true o继承toString属性
+//    o.hasOwnProperty()
+    console.log(o.hasOwnProperty("x"));   //==> true;
+    console.log(o.hasOwnProperty("toString"));    //==>false toString是继承属性
+//    o.propertyIsEnumerable()
+    var o2=inherit({y:2});
+    o2.x=1;
+    console.log(o.propertyIsEnumerable("x"));   //==>true x是自有属性
+    console.log(o.propertyIsEnumerable("y"));   //==> false y是继承属性
+    console.log(Object.prototype.propertyIsEnumerable("toString"));   //==>false  不可枚举
+//    !== 运算符
+    console.log(o.x!==undefined);   //==>true o中有x属性
+    console.log(o.y!==undefined);   //==>false  o中没有y属性
+    console.log(o.toString!==undefined);  //==> true o继承了toString
+//  !==运算符  和   in 运算符差别
+    var o3={x:undefined};
+    console.log(o3.x!==undefined);    //==>false  属性存在但是值为undefined
+    console.log(o3.y!==undefined);    //==>false  属性不存在
+    console.log("x" in o3);         //==>true   属性存在
+    console.log("y" in o3);       //==> false     属性不存在
+  </script>
+</head>
+<body>
+
+</body>
+</html>

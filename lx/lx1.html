@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script>
+      var a = new Object();
+      a.x = 1;
+      Object.prototype.z = 3;
+      Object.defineProperty(a, "x", {
+          enumerable: false,
+          value: 2
+      });
+      var a1 = a;
+      a1.y = 2;
+      var o = {
+          x: 1,
+          y: 2
+      };
+      //    遍历对象自有属性
+      function allP(o) {
+          var a = [];
+          for (var p in o) {
+              if (o.hasOwnProperty(p)) {
+                  a.push(p + ":" + o[p]);
+                  console.log(p + ":" + o[p])
+              } else {
+                  console.log(p);
+
+              }
+          }
+          return a;
+      }
+      console.log(o.hasOwnProperty("x")); //=>true
+      console.log(a.hasOwnProperty("toString")); //=>false
+      console.log(a1.hasOwnProperty("x")); //==>true
+      console.log(a.z); //==>3
+      console.log(a.hasOwnProperty("z")); //==>false 从原型继承来的属性
+      console.log(a1.hasOwnProperty("x")); //==> true
+      console.log("propertyIsEnumerable=" + a.propertyIsEnumerable("x")); //==>false  该属性是不可枚举的
+      //    Object.defineProperty(a,"x",{enumerable:true,value:2});
+      console.log("enumerable:true=" + a.propertyIsEnumerable("x")); //==>true   修改了属性的可枚举性
+      function f1() {};
+      function F2() {};
+      F2.prototype = new f1();
+      function F3() {};
+      F3.prototype = new F2();
+      function F4() {};
+      F4.prototype = new F3();
+      var f4 = new F4();
+      var aa = new Date();
+      console.log("F2.prototype.isPrototypeOf(f4)=" + F3.prototype.isPrototypeOf(f4));
+      console.log("检查原型=" + Object.prototype.isPrototypeOf(a));
+      console.log(toString.call(new Date));
+      var data = new Date();
+      var number = 3500;
+      console.log(data.toLocaleString("zh-Hans-CN-u-nu-hanidec"));
+      var number = 123456.789;
+      console.log(number.toLocaleString("zh-Hans-CN-u-nu-hanidec"));
+      console.log((new Date()));
+      console.log((new Date()).toJSON());
+      Object.defineProperty(Object.prototype, "z", {
+          enumerable: false
+      });
+      var o1 = {
+          x: 1
+      };
+      var o2 = Object.create(o1);
+      console.log(o2);
+  console.log(o2.hasOwnProperty("x")); //o2的x是继承来的
+      console.log(Object.keys(a));
+      console.log(Object.getOwnPropertyNames(a));
+      console.log(Object.getOwnPropertyDescriptor(o2, "x"));
+      console.log(Object.getPrototypeOf(o2));
+      //			Object.defineProperty(o1,"x",{writable:false});
+      //			Object.preventExtensions(o1);
+      //			Object.seal(o1);
+      Object.freeze(o1);
+      console.log(Object.isFrozen(o1));
+      //			Object.defineProperty(o1,"x",{writable:true});
+      o1.y = 2;
+      o1.x = 3;
+      delete o1.x;
+      console.log(Object.getOwnPropertyDescriptor(o1, "x"));
+      Object.prototype.d = 5;
+      console.log(o1);
+      console.log(Object.isExtensible(o1));
+      Objec
+  </script>
+</head>
+<body>
+	
+</body>
+</html>

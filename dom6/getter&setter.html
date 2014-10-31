@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="../06.01.inherit.js"></script>
+  <script>
+    //getting 和 setting 是ECMAScript5才有的属性
+    var p={
+//     x和y是普通的可读写的数据属性
+      x:1.0,
+      y:1.0,
+//      r是可读写的存取起属性，他有getter和setter
+//      函数结束体之后不要要忘记逗号
+      get r(){return Math.sqrt(this.x*this.x+this.y*this.y);},
+      set r(newvalue){
+        var oldValue=Math.sqrt(this.x*this.x+this.y*this.y);
+        var radio=newvalue/oldValue;
+        this.x*=radio;
+        this.y*=radio;
+      },
+      get theta(){return Math.atan2(this.x,this.y);}
+    }
+    var q=inherit(p);
+    q.x=1, q.y=1;
+    console.log("get="+q.r);        //==>1.4142135623730951
+    console.log("theta="+q.theta);  //==>0.7853981633974483
+    console.log("x="+q.x);          //==>x=1
+    q.r=10;                         //==>setting 重新设置对象属性
+    console.log("x="+q.x);          //==>x=7.071067811865475
+
+//   这个对象有一个可以返回随机数的存取器属性
+    var random={
+      get octet() { return Math.floor(Math.random()*256); },
+      get uint16() { return Math.floor(Math.random()*65536); },
+      get int16() { return Math.floor(Math.random()*65536)-32768; }
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<!--	<script src="extend.js"></script>-->
+<!--	<script src="../06.02.extend.js"></script>-->
+<!--	<script src="extend2.js"></script>-->
+	<script>
+		var o={x:1,y:2,z:3};
+		var p={z:4,y:5,e:6};
+		var a="dasdada";
+//		console.log(intersection(o,p));
+//		console.log(keys(o));
+//		Object.defineProperty(Object.prototype,"x",{value:function(o){
+//			
+//		}});
+//		console.log(Object.prototype.x);
+		/*Object.prototype.extend(o);
+		console.log(Object.y);
+		var c=new Object();
+		console.log(c);*/
+		
+		alert(Object.defineProperty);
+	</script>
+	<style>
+		#div1{
+			width: 100px;
+			height: 300px;
+		}
+	</style>
+</head>
+<body>
+	<div id="div1"></div>
+	<script>
+		var d1=document.getElementById('div1')
+
+		Object.defineProperty(d1.style,"width",{value:"2000px"});
+	</script>
+</body>
+</html>

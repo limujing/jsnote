@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+//        鸭式辫型实现的函数
+        function quacks(o /*, ... */) {
+            for(var i = 1; i < arguments.length; i++) { // 遍历o之后所有的参数
+                var arg = arguments[i];
+                switch(typeof arg) { // 如果参数是
+                    case 'string': // string: 直接用名字做检查
+                        if (typeof o[arg] !== "function") return false;
+                        continue;
+                    case 'function': // function: 检查函数的原型对象上的方法
+                    // 如果实参是函数,则直接使用它的函数
+                        arg = arg.prototype;
+                    // 进入下一个case
+                    case 'object': // object: 检查匹配的方法
+                        for(var m in arg) { // 遍历对象的每个属性
+                            if (typeof arg[m] !== "function") continue; // 跳过不是方法的属性
+                            if (typeof o[m] !== "function") return false;
+                        }
+                }
+            }
+            //如果程序能是实现到这里，说明o实现了所有的方法
+            return true;
+        }
+        var o={x:1,y:2};
+        var f1=function aa(){console.log(1)};
+        var a=quacks(o,f1)
+        console.log(a);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
