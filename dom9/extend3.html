@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        extend(Set.prototype, {
+// Convert a set to a string
+            toString: function() {
+                var s = "{", i = 0;
+                this.foreach(function(v) { s += ((i++ > 0)?", ":"") + v; });
+                return s + "}";
+            },
+// Like toString, but call toLocaleString on all values
+            toLocaleString : function() {
+                var s = "{", i = 0;
+                this.foreach(function(v) {
+                    if (i++ > 0) s += ", ";
+                    if (v == null) s += v; // null & undefined
+                    else s += v.toLocaleString(); // all others
+                });
+                return s + "}";
+            },
+// Convert a set to an array of values
+            toArray: function() {
+                var a = [];
+                this.foreach(function(v) { a.push(v); });
+                return a;
+            }
+        });
+        // Treat sets like arrays for the purposes of JSON stringification.
+        Set.prototype.toJSON = Set.prototype.toArray;
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
